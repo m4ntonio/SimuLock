@@ -1,0 +1,66 @@
+Análise e Simulação de Ransomware (Refatoração de Sistema de Backup Criptografado)
+
+
+Objetivo
+
+Refatorar um projeto previamente desenvolvido de backup criptografado e transformá-lo em uma simulação controlada de ransomware, com o objetivo de compreender técnicas de criptografia aplicadas a arquivos, comportamento de ameaças reais, impactos de ataques cibernéticos e a importância de mecanismos de defesa.
+
+
+Importante
+
+Esta atividade tem caráter exclusivamente educacional. Não é permitido utilizar o projeto fora do ambiente acadêmico. Não é permitido aplicar em sistemas reais. Toda a execução deve ocorrer em ambiente controlado (máquina local ou máquina virtual).
+
+
+Descrição da Atividade
+
+Os alunos deverão utilizar como base o projeto de backup criptografado desenvolvido anteriormente e refatorar o sistema para simular o comportamento de um ransomware.
+
+
+Requisitos do Sistema
+
+1. Criptografia de Arquivos (Simulada)
+O sistema deve selecionar arquivos de um diretório específico e aplicar criptografia ou simulação equivalente. Após a execução, os arquivos devem ficar inacessíveis ao usuário comum.
+
+2. Controle de Execução
+O programa deve detectar execução inicial, evitar execução repetida indevida e registrar logs da operação.
+
+3. Tela de Resgate (OBRIGATÓRIO)
+O sistema deve exibir uma interface simulando um ataque de ransomware contendo mensagem informando que os arquivos foram criptografados, valor fictício de resgate, instruções simuladas de pagamento e identificador único da vítima. A tela pode ser implementada em interface gráfica ou terminal estruturado.
+
+4. Simulação de Descriptografia
+O sistema deve conter uma forma de reversão controlada, permitindo a restauração dos arquivos ao estado original mediante entrada de uma chave ou comando.
+
+5. Registro de Logs
+O sistema deve registrar arquivos afetados, data e hora da execução e ações realizadas.
+
+6. Organização do Código
+O código deve ser estruturado utilizando funções, incluindo função de varredura de arquivos, função de criptografia, função de descriptografia, função de exibição da tela de resgate e função de controle e logs.
+
+
+Ambiente de Teste
+
+Utilizar apenas arquivos de teste. Recomenda-se o uso de máquina virtual ou diretórios isolados.
+
+
+Critérios de Avaliação (10 pontos)
+
+- Refatoração do código original (2 pontos)
+
+- Implementação da lógica de criptografia (2 pontos)
+
+- Tela de resgate simulada (2 pontos)
+
+- Organização e uso de funções (2 pontos)
+
+- Funcionamento geral e simulação completa (2 pontos)
+
+
+Entrega Esperada
+
+Código-fonte completo e documento explicando o funcionamento do sistema, fluxo do ataque simulado e como a recuperação é realizada, enviar o .zip, o Github não vai aceitar o código provavelmente.
+
+
+Observação Final
+
+O objetivo desta atividade é compreender como ataques de ransomware funcionam, como a criptografia pode ser usada de forma maliciosa e a importância de estratégias como backup seguro e controle de acesso.
+

@@ -1,0 +1,44 @@
+# ─────────────────────────────────────────
+# SimuLock v1.0 — .gitignore
+# ─────────────────────────────────────────
+
+# Arquivos criptografados (simulação)
+*.locked
+*.enc
+
+# Logs
+logs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Ambientes virtuais
+.venv/
+env/
+venv/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Testes locais (mantém estrutura)
+test_files/*
+!test_files/.keep
+
+# Arquivo de controle de execução (runtime)
+.executado.flag
