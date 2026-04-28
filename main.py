@@ -35,12 +35,48 @@ from getpass import getpass
 
 TARGET = "test_files"
 
+def preparar_ambiente():
+    path = Path(TARGET)
+
+    # cria pasta se não existir
+    path.mkdir(parents=True, exist_ok=True)
+
+    # verifica se está vazia
+    arquivos = list(path.glob("*"))
+
+    if not arquivos:
+        print("\n[!] Nenhum arquivo encontrado em 'test_files'.")
+        print("[!] Adicione arquivos para simulação e tente novamente.\n")
+        return False
+
+    return True
+
+def mostrar_banner():
+    print("""
+☢︎ SimuLock v1.0
+───────────────────────────────────
+ Educational Ransomware Simulation
+───────────────────────────────────
+""")
+
+def obter_senha():
+    try:
+        return getpass("> Defina a chave: ").encode()
+    except KeyboardInterrupt:
+        print("\n\n[!] Execução cancelada pelo usuário.\n")
+        exit(0)
+
 def main():
+    mostrar_banner()
+
     if already_executed():
-        print("> Sistema já executado.")
+        print("\n[!] Sistema já executado.\n")
         return
 
-    senha = getpass("> Defina a chave: ").encode()
+    if not preparar_ambiente():
+        return
+
+    senha = obter_senha()
 
     files = scan_files(TARGET)
 

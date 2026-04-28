@@ -12,14 +12,24 @@ def mostrar_ransom_gui(on_submit):
     frame = tk.Frame(root, bg="black")
     frame.pack(expand=True)
 
-    titulo = tk.Label(
+    titulo_app = tk.Label(
+        frame,
+        text="☢︎ SimuLock v1.0",
+        fg="white",
+        bg="black",
+        font=("Courier", 23, "bold")
+    )
+
+    titulo_msg = tk.Label(
         frame,
         text="⚠︎ SEUS ARQUIVOS FORAM CRIPTOGRAFADOS ⚠︎",
         fg="red",
         bg="black",
-        font=("Courier", 24, "bold")
+        font=("Courier", 22, "bold")
     )
-    titulo.pack(pady=20)
+
+    titulo_app.pack(pady=(10, 0))
+    titulo_msg.pack(pady=(0, 20))
 
     info = tk.Label(
         frame,
