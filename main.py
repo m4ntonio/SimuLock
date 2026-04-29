@@ -25,15 +25,28 @@
 # Versão: 1.0
 # ───────────────────────────────────────────────
 
+# ───────────────────────────────────────────────
+# SimuLock v1.0
+# Educational Ransomware Simulation
+# ───────────────────────────────────────────────
+
 from scanner import scan_files
 from crypto import encrypt_file, decrypt_file
 from logger import log
 from control import already_executed, mark_executed
-from ui import ransom_screen
+from ui_cli import mostrar_ransom_cli
+from ui_gui import mostrar_ransom_gui
+
 from pathlib import Path
 from getpass import getpass
+import sys
+import os
 
 TARGET = "test_files"
+
+# ───────────────────────────────────────────────
+# Ambiente
+# ───────────────────────────────────────────────
 
 def preparar_ambiente():
     path = Path(TARGET)
@@ -45,32 +58,61 @@ def preparar_ambiente():
     arquivos = list(path.glob("*"))
 
     if not arquivos:
-        print("\n[!] Nenhum arquivo encontrado em 'test_files'.")
+        print("[!] Nenhum arquivo encontrado em 'test_files'.")
         print("[!] Adicione arquivos para simulação e tente novamente.\n")
         return False
 
     return True
 
+
+def limpar_tela():
+    os.system("cls" if os.name == "nt" else "clear")
+
+
 def mostrar_banner():
     print("""
-☢︎ SimuLock v1.0
+☣[SimuLock v1.0]☣︎
 ───────────────────────────────────
  Educational Ransomware Simulation
 ───────────────────────────────────
 """)
 
+
 def obter_senha():
-    try:
-        return getpass("> Defina a chave: ").encode()
-    except KeyboardInterrupt:
-        print("\n\n[!] Execução cancelada pelo usuário.\n")
-        exit(0)
+    while True:
+        try:
+            senha = getpass("> Defina a chave: ").strip()
+
+            if not senha:
+                print("\n[!] A chave não pode ser vazia.\n")
+                continue
+
+            if len(senha) < 4:
+                print("\n[!] A chave deve ter pelo menos 4 caracteres.\n")
+                continue
+
+            return senha.encode()
+
+        except KeyboardInterrupt:
+            print("\n\n[!] Execução cancelada pelo usuário.\n")
+            sys.exit(0)
+
+
+# ───────────────────────────────────────────────
+# Main
+# ───────────────────────────────────────────────
 
 def main():
+    limpar_tela()
+    print()
     mostrar_banner()
 
+    # 🔹 modo de execução
+    modo = "cli" if "--cli" in sys.argv else "gui"
+    print(f"[✔︎] Modo: {modo.upper()}\n")
+
     if already_executed():
-        print("\n[!] Sistema já executado.\n")
+        print("[!] Sistema já executado.\n")
         return
 
     if not preparar_ambiente():
@@ -88,26 +130,7 @@ def main():
 
     mark_executed()
 
-    # ================= UI =================
-
-    # OPÇÃO 1 — Interface terminal (simples, fallback)
-    # from ui import ransom_screen
-    # user_key = ransom_screen().encode()
-    #
-    # if user_key == senha:
-    #     locked_files = Path(TARGET).rglob("*.locked")
-    #     for f in locked_files:
-    #         decrypt_file(f, senha)
-    #         log(f"Descriptografado: {f}")
-    #     print("Arquivos recuperados")
-    # else:
-    #     log("Tentativa de chave incorreta")
-    #     print("Chave incorreta")
-
-
-    # OPÇÃO 2 — Interface gráfica (principal)
-    from ui_gui import mostrar_ransom_gui
-
+    # Função de verificação (compartilhada)
     def verificar_chave(input_key):
         if input_key.encode() == senha:
             locked_files = Path(TARGET).rglob("*.locked")
@@ -119,7 +142,11 @@ def main():
             log("Tentativa de chave incorreta")
             return False
 
-    mostrar_ransom_gui(verificar_chave)
+    # Escolha da interface
+    if modo == "cli":
+        mostrar_ransom_cli(verificar_chave)
+    else:
+        mostrar_ransom_gui(verificar_chave)
 
 if __name__ == "__main__":
     main()
